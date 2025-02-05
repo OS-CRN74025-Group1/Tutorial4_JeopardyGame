@@ -1,0 +1,76 @@
+name: Nix Build & Test
+
+on:
+  push:
+    branches: [ VS-*, main ]
+  pull_request:
+    branches: [ VS-*, main ]
+
+jobs:
+  nix-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@v9
+      
+      - name: Setup Nix Cache
+        uses: DeterminateSystems/magic-nix-cache-action@v2
+      
+      - name: Test Nix Shell
+        run: |
+          # Verify nix-shell loads correctly
+          nix-shell shell.nix --run "echo 'Nix shell loads successfully'"
+          
+          # Test if required tools are available in nix-shell
+          nix-shell shell.nix --run "gcc --version"
+          nix-shell shell.nix --run "make --version"
+          nix-shell shell.nix --run "git --version"
+          nix-shell shell.nix --run "gdb --version"
+          nix-shell shell.nix --run "valgrind --version"
+
+  build-test:
+    needs: nix-build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@v9
+      
+      - name: Build Project
+        run: |
+          nix-shell shell.nix --run "make all"
+          
+      - name: Verify Build Artifacts
+        run: |
+          nix-shell shell.nix --run "test -f jeopardy.exe"
+          
+      - name: Test Clean Target
+        run: |
+          nix-shell shell.nix --run "make clean"
+          nix-shell shell.nix --run "test ! -f jeopardy.exe"
+          
+      - name: Upload Build Artifacts
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jeopardy-game
+          path: |
+            jeopardy.exe
+            *.o
+          retention-days: 7
+
+  code-analysis:
+    needs: nix-build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@v9
+        
+      - name: Static Analysis
+        run: |
+          nix-shell shell.nix --run "gcc -fanalyzer -Wall -Wextra -std=c99 -c *.c" 

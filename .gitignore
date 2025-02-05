@@ -20,3 +20,7 @@ nix-shell.pem
 !.nix*
 !default.nix
 !shell.nix
+
+# Don't ignore GitHub Actions workflow files
+!.github/workflows/
+!.github/workflows/*.yml
