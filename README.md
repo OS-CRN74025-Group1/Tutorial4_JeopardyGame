@@ -12,19 +12,14 @@ First, you need to install Nix. Nix can be installed in two modes: multi-user an
 
 #### Multi-user Installation
 
-For Linux (including WSL):
-
-```bash
-sh <(curl -L https://nixos.org/nix/install)
-```
-##### macOS:
+For **_Linux_** (including **_WSL_**) and **_macOS_**:
 
 ```bash
 sh <(curl -L https://nixos.org/nix/install)
 ```
 Single-user Installation
 
-For NixOS-WSL:
+For **_NixOS-WSL_**:
 
   ```powershell
   # Download latest release
