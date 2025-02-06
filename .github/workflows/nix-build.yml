@@ -2,9 +2,9 @@ name: Nix Build & Test
 
 on:
   push:
-    branches: [ VS-*, main ]
+    branches: [ users/VS-*, main ]
   pull_request:
-    branches: [ VS-*, main ]
+    branches: [ users/VS-*, main ]
 
 jobs:
   nix-build:
