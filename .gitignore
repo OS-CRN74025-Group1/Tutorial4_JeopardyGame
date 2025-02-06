@@ -20,6 +20,8 @@ nix-shell.pem
 !.nix*
 !default.nix
 !shell.nix
+!flake.nix
+!flake.lock
 
 # Don't ignore GitHub Actions workflow files
 !.github/workflows/
