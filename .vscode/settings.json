@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {
     "fileNestingUpdater.autoUpdate": true,
     "fileNestingUpdater.autoUpdateInterval": 720,
@@ -207,3 +208,72 @@
         "sync": true
     },
 }
+=======
+{
+    "fileNestingUpdater.autoUpdate": true,
+    "fileNestingUpdater.autoUpdateInterval": 720,
+    "fileNestingUpdater.promptOnAutoUpdate": true,
+    "fileNestingUpdater.upstreamRepo": "antfu/vscode-file-nesting-config",
+    "fileNestingUpdater.upstreamBranch": "main",
+    "window.commandCenter": 1,
+    "cursor.cpp.disabledLanguages": [],
+    "terminal.external.windowsExec": "%SystemRoot%\\System32\\wsl.exe -d NixOS",
+    "terminal.integrated.copyOnSelection": true,
+    "terminal.integrated.defaultProfile.windows": "NixOS",
+    "terminal.integrated.enableImages": true,
+    "terminal.integrated.ignoreProcessNames": [
+        "starship",
+        "oh-my-posh",
+        "bash",
+        "zsh",
+        "fish"
+    ],
+    "terminal.integrated.smoothScrolling": true,
+    "terminal.integrated.env.windows": {
+        "VSCODE_PROFILE": "1"
+    },
+    "terminal.integrated.profiles.windows": {
+        "PowerShell": {
+            "source": "PowerShell",
+            "icon": "terminal-powershell",
+            "path": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+            "args": ["-ExecutionPolicy", "Bypass"]
+        },
+        "Command Prompt": {
+            "path": [
+                "${env:windir}\\Sysnative\\cmd.exe",
+                "${env:windir}\\System32\\cmd.exe"
+            ],
+            "args": [],
+            "icon": "terminal-cmd"
+        },
+        "Git Bash": {
+            "source": "Git Bash"
+        },
+        "NixOS": {
+            "path": "C:\\Windows\\System32\\wsl.exe",
+            "args": ["--distribution", "NixOS"],
+            "icon": "terminal-linux"
+        }
+    },
+    "git.path": "C:\\Program Files\\Git\\cmd\\git.exe",
+    "git.autofetch": true,
+    "git.confirmSync": false,
+    "editor.tabCompletion": "on",
+    "diffEditor.codeLens": true,
+    "[nix]": {
+        "editor.defaultFormatter": "B4dM4n.nixpkgs-fmt"
+    },
+    "gitlens.ai.experimental.provider": "openai",
+    "gitlens.ai.experimental.openai.model": "gpt-3.5-turbo-1106",
+    "gitlens.ai.model": "xai:grok-beta",
+    "workbench.settings.applyToAllProfiles": [],
+    "cursor.chat.alwaysSearchWeb": true,
+    "cursor.chat.smoothStreaming": true,
+    "cursor.terminal.usePreviewBox": true,
+    "files.autoSave": "afterDelay",
+    "terminal.integrated.defaultProfile.linux": "",
+    "terminal.integrated.defaultProfile.osx": "",
+    "powershell.promptToUpdatePowerShell": false
+}
+>>>>>>> 1c2298f (Updated flake for platform specific pkg inputs, updated CI cachix cache name and fix attempt for .vscode cursor composer default terminal settings)
