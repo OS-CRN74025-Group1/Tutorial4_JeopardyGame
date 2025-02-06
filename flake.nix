@@ -29,8 +29,8 @@
             git
             
             # Python and pip
-            python314
-            python314Packages.pip
+            python39
+            python39Packages.pip
           ] ++ platformSpecificInputs;
 
           shellHook = ''
