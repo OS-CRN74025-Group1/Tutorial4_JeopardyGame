@@ -45,6 +45,12 @@
             "icon": "terminal-linux"
         }
     },
+    "terminal.integrated.shellIntegration.enabled": true,
+    "terminal.integrated.automationProfile.windows": {
+        "path": "C:\\Windows\\System32\\wsl.exe",
+        "args": ["--distribution", "NixOS"],
+        "icon": "terminal-linux"
+    },
     "git.path": "C:\\Program Files\\Git\\cmd\\git.exe",
     "git.autofetch": true,
     "git.confirmSync": false,
