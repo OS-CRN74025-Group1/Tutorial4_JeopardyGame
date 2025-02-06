@@ -27,20 +27,14 @@
 
             # Version control
             git
-            
-            # Python and pip
-            python39
-            python39Packages.pip
           ] ++ platformSpecificInputs;
 
           shellHook = ''
             echo -e "\033[1;34mC Development Environment\033[0m"
-            echo -e "\033[1;32mAvailable tools: gcc, make, git, python, pip\033[0m"
+            echo -e "\033[1;32mAvailable tools: gcc, make, git\033[0m"
             if [ "$(uname)" = "Linux" ]; then
               echo -e "\033[1;32mDebug tools: gdb, valgrind\033[0m"
             fi
-            echo -e "\033[1;32mPython version: $(python --version) \033[0m"
-            echo -e "\033[1;32mPip version: $(pip --version) \033[0m"
           '';
         };
       }
