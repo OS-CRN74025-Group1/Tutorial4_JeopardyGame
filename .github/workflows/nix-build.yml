@@ -39,15 +39,15 @@ jobs:
       
       - name: Test Nix Shell
         run: |
-          # Verify nix-shell loads correctly
-          nix-shell shell.nix --run "echo 'Nix shell loads successfully'"
+          # Verify nix develop loads correctly
+          nix develop --command echo 'Nix develop loads successfully'
           
-          # Test if required tools are available in nix-shell
-          nix-shell shell.nix --run "gcc --version"
-          nix-shell shell.nix --run "make --version"
-          nix-shell shell.nix --run "git --version"
-          nix-shell shell.nix --run "gdb --version"
-          nix-shell shell.nix --run "valgrind --version"
+          # Test if required tools are available
+          nix develop --command gcc --version
+          nix develop --command make --version
+          nix develop --command git --version
+          nix develop --command gdb --version
+          nix develop --command valgrind --version
 
   build-test:
     needs: nix-build
@@ -70,16 +70,16 @@ jobs:
       
       - name: Build Project
         run: |
-          nix-shell shell.nix --run "make all"
+          nix develop --command make all
           
       - name: Verify Build Artifacts
         run: |
-          nix-shell shell.nix --run "test -f jeopardy"
+          nix develop --command test -f jeopardy
           
       - name: Test Clean Target
         run: |
-          nix-shell shell.nix --run "make clean"
-          nix-shell shell.nix --run "test ! -f jeopardy"
+          nix develop --command make clean
+          nix develop --command test ! -f jeopardy
           
       - name: Upload Build Artifacts
         if: success()
@@ -112,4 +112,4 @@ jobs:
         
       - name: Static Analysis
         run: |
-          nix-shell shell.nix --run "gcc -fanalyzer -Wall -Wextra -std=c99 -c *.c" 
+          nix develop --command gcc -fanalyzer -Wall -Wextra -std=c99 -c *.c 
