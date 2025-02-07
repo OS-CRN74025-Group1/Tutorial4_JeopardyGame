@@ -24,3 +24,9 @@ nix-shell.pem
 # Don't ignore GitHub Actions workflow files
 !.github/workflows/
 !.github/workflows/*.yml
+
+#Ignore python compiled artifacts
+.venv/*
+
+#Ignore backups
+*.backup
