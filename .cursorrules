@@ -54,7 +54,7 @@
       "description": "Provide an overview of the repository for project documentation and high-level information."
     },
     {
-      "match": "{DELIVERABLES,GUIDELINES}.md",
+      "match": "{docs/,}{DELIVERABLES,GUIDELINES}.md",
       "action": "open",
       "priority": 18,
       "description": "Access project deliverables and guidelines documentation for project standards and requirements."

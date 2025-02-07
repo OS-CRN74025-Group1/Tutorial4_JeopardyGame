@@ -6,7 +6,7 @@
     "fileNestingUpdater.upstreamBranch": "main",
     "window.commandCenter": 1,
     "cursor.cpp.disabledLanguages": [],
-    "terminal.external.windowsExec": "C:\\Windows\\System32\\wsl.exe",
+    "terminal.external.windowsExec": "${env:SystemRoot}\\System32\\wsl.exe -d NixOS",
     "terminal.integrated.copyOnSelection": true,
     "terminal.integrated.defaultProfile.windows": "NixOS (WSL)",
     "terminal.integrated.defaultProfile.linux": "NixOS",
@@ -28,7 +28,7 @@
         "PowerShell": {
             "source": "PowerShell",
             "icon": "terminal-powershell",
-            "path": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+            "path": "${env:ProgramFiles}\\PowerShell\\7\\pwsh.exe",
             "args": ["-ExecutionPolicy", "Bypass"]
         },
         "Command Prompt": {
@@ -50,15 +50,15 @@
         }
     },
     "terminal.integrated.shellIntegration.enabled": true,
-    "terminal.integrated.automationShell.windows": "C:\\Windows\\System32\\wsl.exe -d NixOS",
+    "terminal.integrated.automationShell.windows": "${env:SystemRoot}\\System32\\wsl.exe -d NixOS",
     "terminal.integrated.automationProfile.windows": {
-        "path": "C:\\Windows\\System32\\wsl.exe",
+        "path": "${env:SystemRoot}\\System32\\wsl.exe",
         "args": ["-d", "NixOS"]
     },
     "terminal.integrated.automationProfile.linux": {
         "path": "bash"
     },
-    "git.path": "C:\\Program Files\\Git\\cmd\\git.exe",
+    "git.path": "${env:ProgramFiles}\\Git\\cmd\\git.exe",
     "git.autofetch": true,
     "git.confirmSync": false,
     "editor.tabCompletion": "on",
