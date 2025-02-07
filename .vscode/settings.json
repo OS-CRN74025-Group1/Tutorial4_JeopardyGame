@@ -6,10 +6,12 @@
     "fileNestingUpdater.upstreamBranch": "main",
     "window.commandCenter": 1,
     "cursor.cpp.disabledLanguages": [],
-    "terminal.external.windowsExec": "%SystemRoot%\\System32\\wsl.exe -d NixOS",
+    "terminal.external.windowsExec": "C:\\Windows\\System32\\wsl.exe",
     "terminal.integrated.copyOnSelection": true,
-    "terminal.integrated.defaultProfile.windows": "NixOS",
+    "terminal.integrated.defaultProfile.windows": "NixOS (WSL)",
+    "terminal.integrated.defaultProfile.linux": "NixOS",
     "terminal.integrated.enableImages": true,
+    "terminal.integrated.useWslProfiles": false,
     "terminal.integrated.ignoreProcessNames": [
         "starship",
         "oh-my-posh",
@@ -19,7 +21,8 @@
     ],
     "terminal.integrated.smoothScrolling": true,
     "terminal.integrated.env.windows": {
-        "VSCODE_PROFILE": "1"
+        "VSCODE_PROFILE": "1",
+        "WSLENV": "VSCODE_PROFILE/u"
     },
     "terminal.integrated.profiles.windows": {
         "PowerShell": {
@@ -38,18 +41,22 @@
         },
         "Git Bash": {
             "source": "Git Bash"
-        },
+        }
+    },
+    "terminal.integrated.profiles.linux": {
         "NixOS": {
-            "path": "C:\\Windows\\System32\\wsl.exe",
-            "args": ["--distribution", "NixOS"],
+            "path": "bash",
             "icon": "terminal-linux"
         }
     },
     "terminal.integrated.shellIntegration.enabled": true,
+    "terminal.integrated.automationShell.windows": "C:\\Windows\\System32\\wsl.exe -d NixOS",
     "terminal.integrated.automationProfile.windows": {
         "path": "C:\\Windows\\System32\\wsl.exe",
-        "args": ["--distribution", "NixOS"],
-        "icon": "terminal-linux"
+        "args": ["-d", "NixOS"]
+    },
+    "terminal.integrated.automationProfile.linux": {
+        "path": "bash"
     },
     "git.path": "C:\\Program Files\\Git\\cmd\\git.exe",
     "git.autofetch": true,
@@ -67,7 +74,5 @@
     "cursor.chat.smoothStreaming": true,
     "cursor.terminal.usePreviewBox": true,
     "files.autoSave": "afterDelay",
-    "terminal.integrated.defaultProfile.linux": "",
-    "terminal.integrated.defaultProfile.osx": "",
     "powershell.promptToUpdatePowerShell": false
 }
