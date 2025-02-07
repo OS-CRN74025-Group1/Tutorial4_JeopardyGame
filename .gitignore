@@ -19,7 +19,7 @@ nix-shell.pem
 # But don't ignore these important Nix files:
 !.nix*
 !default.nix
-shell.nix
+!shell.nix
 !flake.nix
 !flake.lock
 
