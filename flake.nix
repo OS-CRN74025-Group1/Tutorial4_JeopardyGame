@@ -30,10 +30,12 @@
           ] ++ platformSpecificInputs;
 
           shellHook = ''
-            echo -e "\033[1;34mC Development Environment\033[0m"
-            echo -e "\033[1;32mAvailable tools: gcc, make, git\033[0m"
-            if [ "$(uname)" = "Linux" ]; then
-              echo -e "\033[1;32mDebug tools: gdb, valgrind\033[0m"
+            if [ -n "$PS1" ]; then
+              echo -e "\033[1;34mC Development Environment\033[0m"
+              echo -e "\033[1;32mAvailable tools: gcc, make, git\033[0m"
+              if [ "$(uname)" = "Linux" ]; then
+                echo -e "\033[1;32mDebug tools: gdb, valgrind\033[0m"
+              fi
             fi
           '';
         };
