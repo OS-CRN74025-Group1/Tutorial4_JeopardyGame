@@ -12,6 +12,8 @@ pkgs.mkShell {
     pythonEnv
     pkgs.which
     pkgs.dos2unix  # Add dos2unix for line ending conversion
+    pkgs.git
+    pkgs.curl
   ];
 
   shellHook = "
