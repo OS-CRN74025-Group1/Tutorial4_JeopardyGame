@@ -1,0 +1,6 @@
+# Handle .cursorrules files
+tools/agent/.cursorrules merge=ours
+.cursorrules merge=ours
+
+# Ensure consistent line endings
+* text=auto eol=lf 
