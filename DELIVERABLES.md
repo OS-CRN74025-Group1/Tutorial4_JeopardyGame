@@ -40,7 +40,7 @@ again.
 --- 
 # Project Guidelines 
 The following are project guidelines intended to help you in completing the project, you are free to deviate from them in order to complete the project. 
-### Questions source files 
+## Questions source files 
 #### 1. The questions source files should contain all of your categories, questions, and answers as well as any functions to help in getting questions or validating answers. 
  
 #### 2. The list of categories can be stored in an array of strings `categories[ ][ ]`. 
