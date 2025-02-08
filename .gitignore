@@ -45,6 +45,8 @@ shell.nix
 *.obj
 *.ko
 *.elf
+*.exe
+jeopardy
 
 # Build directories
 build/
