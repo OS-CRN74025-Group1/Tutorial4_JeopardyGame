@@ -3,23 +3,25 @@ CFLAGS = -Wall -Wextra -std=c99
 LFLAGS = 
 LIBS = 
 SOURCES = jeopardy.c questions.c players.c
-OBJECTS = $(subst .c,.o,$(SOURCES))
-EXE = jeopardy
-.PHONY: clean help
+OBJECTS = $(SOURCES:.c=.o)
+TARGET = jeopardy
+PREFIX = .
 
-jeopardy : jeopardy.o questions.o players.o
-	$(CC) $(CFLAGS) $^ $(LIBS) -o $@ 
+.PHONY: clean help all
 
-%.o : %.c
-	$(CC) $(CFLAGS) -c $< 
+all: $(TARGET)
 
-all : $(EXE)
+$(TARGET): $(OBJECTS)
+	$(CC) $(CFLAGS) -I$(PREFIX) $(OBJECTS) $(LFLAGS) $(LIBS) -o "$(PREFIX)/$(TARGET)"
+
+%.o: %.c
+	$(CC) $(CFLAGS) -I$(PREFIX) -c "$<" -o "$(PREFIX)/$@"
 
 clean:
-	rm -f $(OBJECTS) $(EXE) *~
+	rm -f $(addprefix $(PREFIX)/,$(OBJECTS)) "$(PREFIX)/$(TARGET)" *~
 
 cleanup:
-	rm -f $(OBJECTS) *~
+	rm -f $(addprefix $(PREFIX)/,$(OBJECTS)) *~
 
 help:
 	@echo "Valid targets:"
