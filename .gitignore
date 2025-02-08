@@ -79,6 +79,8 @@ nix-shell.pem
 *.obj
 *.ko
 *.elf
+*.exe
+jeopardy
 
 # Build directories
 build/
