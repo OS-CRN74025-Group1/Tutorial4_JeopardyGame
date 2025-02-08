@@ -32,3 +32,5 @@ nix-shell.pem
 
 #Ignore backups
 *.backup
+tools/agent/.env
+tools/agent/venv/*
