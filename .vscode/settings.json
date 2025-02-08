@@ -6,7 +6,7 @@
     "fileNestingUpdater.upstreamBranch": "main",
     "window.commandCenter": 1,
     "cursor.cpp.disabledLanguages": [],
-    "terminal.external.windowsExec": "C:\\Windows\\System32\\wsl.exe",
+    "terminal.external.windowsExec": "C:\\Windows\\System32\\wsl.exe -d NixOS",
     "terminal.integrated.copyOnSelection": true,
     "terminal.integrated.defaultProfile.windows": "NixOS (WSL)",
     "terminal.integrated.defaultProfile.linux": "NixOS",
