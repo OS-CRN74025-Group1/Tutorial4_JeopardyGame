@@ -4,10 +4,10 @@ LFLAGS =
 LIBS = 
 SOURCES = jeopardy.c questions.c players.c
 OBJECTS = $(subst .c,.o,$(SOURCES))
-EXE = jeopardy.exe
+EXE = jeopardy
 .PHONY: clean help
 
-jeopardy.exe : jeopardy.o questions.o players.o
+jeopardy : jeopardy.o questions.o players.o
 	$(CC) $(CFLAGS) $^ $(LIBS) -o $@ 
 
 %.o : %.c
@@ -24,4 +24,4 @@ cleanup:
 help:
 	@echo "Valid targets:"
 	@echo "  all:    generates all binary files"
-	@echo "  clean:  removes .o and .exe files"
+	@echo "  clean:  removes .o and executable files"
