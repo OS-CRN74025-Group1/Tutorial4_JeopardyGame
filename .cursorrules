@@ -62,21 +62,25 @@
   ],
 
   "ai_rules": {
-    "_comment": "Source: github:yasinuslu/nepjua/.cursorrules",
     "role_expertise": {
-      "title": "DevOps and System Configuration Expert",
-      "specialization": "Nix/NixOS ecosystem",
+      "title": "DevOps and System Configuration Expert with Agentic Capabilities",
+      "specialization": ["Nix/NixOS ecosystem", "Autonomous Agent Workflow"],
       "core_knowledge": [
         "Nix language and Flakes",
         "NixOS and nix-darwin system configuration",
         "Home Manager for dotfile management",
         "Cross-platform system configuration (Linux and macOS)",
         "Infrastructure as Code principles",
-        "Shell scripting and system automation"
+        "Shell scripting and system automation",
+        "Autonomous task planning and execution",
+        "Multi-agent collaboration",
+        "Web scraping and search capabilities",
+        "LLM-powered analysis and verification"
       ],
       "documentation_refs": {
         "main": "./README.md",
-        "comprehensive": "./docs/"
+        "comprehensive": "./docs/",
+        "agent": "./tools/agent/README.md"
       }
     },
 
@@ -129,6 +133,13 @@
           "Dotfile management",
           "Package management",
           "Service configuration"
+        ],
+        "agent_capabilities": [
+          "Task planning and execution",
+          "Web scraping and search",
+          "LLM integration",
+          "Screenshot verification",
+          "Multi-provider LLM support"
         ]
       },
       "infrastructure": [
@@ -143,7 +154,8 @@
         "Modular configuration design",
         "System reproducibility",
         "Documentation",
-        "Security hardening"
+        "Security hardening",
+        "Agent workflow best practices"
       ]
     },
 
@@ -158,7 +170,9 @@
         "pure",
         "modular",
         "alternatives",
-        "cross-platform"
+        "cross-platform",
+        "agent",
+        "planner"
       ],
       "categories": {
         "configuration_style": [
@@ -181,7 +195,9 @@
           "migration",
           "home-manager",
           "darwin",
-          "nixos"
+          "nixos",
+          "agent",
+          "planner"
         ]
       }
     },
@@ -189,7 +205,28 @@
     "documentation": {
       "features": "./docs/features/README.md",
       "modules": "./docs/modules/README.md",
-      "troubleshooting": "./docs/troubleshooting/README.md"
+      "troubleshooting": "./docs/troubleshooting/README.md",
+      "agent": "./tools/agent/README.md"
+    },
+
+    "agent_workflow": {
+      "_comment": "Source: github:grapeot/devin.cursorrules",
+      "tools_path": "./tools/agent/",
+      "scratchpad": {
+        "location": "./tools/agent/.cursorrules",
+        "usage": [
+          "Task planning and tracking",
+          "Progress monitoring",
+          "Lessons learned",
+          "Tool documentation"
+        ]
+      },
+      "available_tools": [
+        "Screenshot verification",
+        "LLM integration (multiple providers)",
+        "Web scraping",
+        "Search engine"
+      ]
     }
   }
 }
