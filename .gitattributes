@@ -23,4 +23,3 @@ Makefile text eol=lf
 # Binary files
 *.o binary
 *.exe binary
-jeopardy binary 
