@@ -32,3 +32,77 @@ nix-shell.pem
 
 #Ignore backups
 *.backup
+# Ignore Nix build artifacts
+result/
+.nix-build/
+
+# Ignore Nix store paths
+/nix/store
+
+# Ignore Nix user environment
+.nix-profile
+.nix-defexpr
+
+# Ignore Nix shell files
+.nix-shell
+
+# Ignore other Nix-related files
+hydra.json
+nix-shell.pem
+
+# But don't ignore these important Nix files:
+!.nix*
+!default.nix
+!shell.nix
+!flake.nix
+!flake.lock
+
+# Don't ignore GitHub Actions workflow files
+!.github/workflows/
+!.github/workflows/*.yml
+
+#Ignore python compiled artifacts
+.venv/*
+
+#Ignore backups
+*.backup
+
+# C/C++ build artifacts
+*.o
+*.out
+*.exe
+*.dll
+*.so
+*.dylib
+*.a
+*.lib
+*.obj
+*.ko
+*.elf
+
+# Build directories
+build/
+bin/
+obj/
+Debug/
+Release/
+
+# IDE specific files
+.vscode/
+.vs/
+*.sdf
+*.opensdf
+*.suo
+*.pdb
+*.idb
+*.ilk
+
+# Dependency files
+*.d
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Generated files
+*.generated.*
