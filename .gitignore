@@ -10,7 +10,8 @@ result/
 .nix-defexpr
 
 # Ignore Nix shell files
-.nix-shell
+*.nix-shell
+.nix-shell/*
 
 # Ignore other Nix-related files
 hydra.json
@@ -19,7 +20,7 @@ nix-shell.pem
 # But don't ignore these important Nix files:
 !.nix*
 !default.nix
-shell.nix
+!shell.nix
 !flake.nix
 !flake.lock
 
