@@ -1,29 +1,18 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -std=c99
-LFLAGS = 
-LIBS = 
-SOURCES = jeopardy.c questions.c players.c
-OBJECTS = $(SOURCES:.c=.o)
-TARGET = jeopardy
-PREFIX = .
+CFLAGS = -Wall -Wextra -std=c99 -I.
+DEPS = jeopardy.h questions.h players.h
+OBJ = jeopardy.o questions.o players.o
+EXEC = jeopardy
 
-.PHONY: clean help all
+.PHONY: all clean
 
-all: $(TARGET)
+%.o: %.c $(DEPS)
+	$(CC) $(CFLAGS) -c -o $@ $<
 
-$(TARGET): $(OBJECTS)
-	$(CC) $(CFLAGS) -I$(PREFIX) $(OBJECTS) $(LFLAGS) $(LIBS) -o "$(PREFIX)/$(TARGET)"
+all: $(EXEC)
 
-%.o: %.c
-	$(CC) $(CFLAGS) -I$(PREFIX) -c "$<" -o "$(PREFIX)/$@"
+$(EXEC): $(OBJ)
+	$(CC) $(CFLAGS) $(OBJ) -o $@
 
 clean:
-	rm -f $(addprefix $(PREFIX)/,$(OBJECTS)) "$(PREFIX)/$(TARGET)" *~
-
-cleanup:
-	rm -f $(addprefix $(PREFIX)/,$(OBJECTS)) *~
-
-help:
-	@echo "Valid targets:"
-	@echo "  all:    generates all binary files"
-	@echo "  clean:  removes .o and executable files"
+	rm -f $(OBJ) $(EXEC) *~
