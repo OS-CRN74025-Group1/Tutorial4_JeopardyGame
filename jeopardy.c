@@ -17,14 +17,39 @@
 #define BUFFER_LEN 256
 #define NUM_PLAYERS 4
 
-// Put global environment variables here
-
 // Processes the answer from the user containing what is or who is and tokenizes it to retrieve the answer.
-void tokenize(char *input, char **tokens);
+void tokenize(char *input, char *tokenized_answer)
+{
+    char *token = strtok(input, " ");
+    if (token != NULL && (strcmp(token, "Who") == 0 || strcmp(token, "What") == 0)) {
+        token = strtok(NULL, " "); // Skip "is"
+        if (token != NULL) {
+            strcpy(tokenized_answer, strtok(NULL, "")); // Get the rest of the string
+        }
+    } else {
+        strcpy(tokenized_answer, input);
+    }
+}
 
 // Displays the game results for each player, their name and final score, ranked from first to last place
-void show_results(player *players, int num_players);
+void show_results(player *players, int num_players)
+{
+    // Simple bubble sort for ranking players based on their score
+    for (int i = 0; i < num_players - 1; i++) {
+        for (int j = 0; j < num_players - i - 1; j++) {
+            if (players[j].score < players[j + 1].score) {
+                player temp = players[j];
+                players[j] = players[j + 1];
+                players[j + 1] = temp;
+            }
+        }
+    }
 
+    printf("\nFinal Results:\n");
+    for (int i = 0; i < num_players; i++) {
+        printf("%d. %s - %d points\n", i + 1, players[i].name, players[i].score);
+    }
+}
 
 int main(int argc, char *argv[])
 {
@@ -93,4 +118,4 @@ int main(int argc, char *argv[])
     show_results(players, NUM_PLAYERS);
     
     return EXIT_SUCCESS;
-}
+} 
