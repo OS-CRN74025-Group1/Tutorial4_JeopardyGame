@@ -1,5 +1,6 @@
-# Tutorial4_JeopardyGame
+# Jeopardy Game
 ## Setting up the Development Environment
+A C-based implementation of the Jeopardy game for Operating Systems course.
 
 To set up the development environment for the Tutorial4_JeopardyGame project, you will need to use `nix-shell`. This will ensure that all the necessary dependencies and tools are available.
 

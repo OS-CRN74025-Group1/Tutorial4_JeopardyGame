@@ -4,9 +4,13 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
+    pre-commit-hooks = {
+      url = "github:cachix/pre-commit-hooks.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, flake-utils }:
+  outputs = { self, nixpkgs, flake-utils, pre-commit-hooks }:
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
@@ -22,6 +26,12 @@
             gnumake
             binutils
           ];
+
+          # Add checks for common build issues
+          doCheck = true;
+          checkPhase = ''
+            gcc -Wall -Wextra -Werror -fsyntax-only *.c
+          '';
           
           buildPhase = ''
             make clean
@@ -33,16 +43,61 @@
             cp jeopardy $out/bin/
             chmod +x $out/bin/jeopardy
           '';
+
+          meta = with pkgs.lib; {
+            description = "A C-based Jeopardy game implementation";
+            homepage = "https://github.com/OS-CRN74025-Group1/tutorial4_jeopardygame";
+            license = licenses.mit;
+            platforms = platforms.all;
+            maintainers = [];
+          };
         };
+
+        pre-commit-check = pre-commit-hooks.lib.${system}.run {
+          src = ./.;
+          hooks = {
+            nixpkgs-fmt.enable = true;
+            clang-format = {
+              enable = true;
+              name = "clang-format";
+              entry = "${pkgs.clang-tools}/bin/clang-format";
+              types = ["c"];
+            };
+            trailing-whitespace = {
+              enable = true;
+              name = "trailing-whitespace";
+              entry = "${pkgs.python3}/bin/python -c 'import sys; sys.stdout.write(\"\".join(l.rstrip()+\"\\n\" for l in sys.stdin))'";
+              types = ["text"];
+            };
+            end-of-file-fixer = {
+              enable = true;
+              name = "end-of-file-fixer";
+              entry = "${pkgs.python3}/bin/python -c 'import sys; content = sys.stdin.read(); sys.stdout.write(content.rstrip()+\"\\n\")'";
+              types = ["text"];
+            };
+            check-merge-conflict = {
+              enable = true;
+              name = "check-merge-conflict";
+              entry = "${pkgs.python3}/bin/python -c 'import sys; sys.exit(any(l.startswith((\"<<<<<<<\", \">>>>>>>\")) for l in sys.stdin))'";
+              types = ["text"];
+            };
+          };
+        };
+
       in
-      {
+      rec {
         packages = {
           default = jeopardy;
           jeopardy = jeopardy;
         };
 
+        checks = {
+          inherit pre-commit-check;
+          build = jeopardy;
+        };
+
         devShells.default = pkgs.mkShell {
-          buildInputs = with pkgs; [
+          packages = with pkgs; [
             # Core build tools
             gcc
             gnumake
@@ -52,14 +107,22 @@
             # Development tools
             gdb
             valgrind
-            clang-tools # for static analysis
+            clang-tools
+            nixpkgs-fmt
+            python3
+            pre-commit
             
             # Version control and utilities
             git
             dos2unix
+
+            # Documentation
+            man
+            man-pages
+            man-pages-posix
           ];
 
-          shellHook = ''
+          shellHook = checks.pre-commit-check.shellHook + ''
             # Force LF line endings and convert existing files
             git config --local core.autocrlf false
             git config --local core.eol lf
@@ -80,16 +143,29 @@
             export LC_ALL=C.UTF-8
             
             # Print development environment info
-            echo "Jeopardy Game Development Environment"
-            echo "--------------------------------"
-            echo "Available commands:"
-            echo "  make clean     - Clean build artifacts"
-            echo "  make all       - Build the game"
-            echo "  gdb jeopardy   - Debug the game"
-            echo "  valgrind ./jeopardy - Check for memory leaks"
-            echo "--------------------------------"
+            echo ""
+            echo "🎮 Jeopardy Game Development Environment"
+            echo "----------------------------------------"
+            echo "📋 Available commands:"
+            echo "  make clean              - Clean build artifacts"
+            echo "  make all                - Build the game"
+            echo "  ./jeopardy              - Run the game"
+            echo ""
+            echo "🔧 Development tools:"
+            echo "  gdb jeopardy            - Debug the game"
+            echo "  valgrind ./jeopardy     - Check for memory leaks"
+            echo "  clang-format -i *.c *.h - Format code"
+            echo ""
+            echo "📚 Documentation:"
+            echo "  man 3 <function>        - View C function documentation"
+            echo ""
+
+            # Ensure pre-commit hooks are properly installed
+            if [ ! -f .git/hooks/pre-commit ]; then
+              pre-commit install --install-hooks
+            fi
           '';
         };
       }
     );
-} 
+}
