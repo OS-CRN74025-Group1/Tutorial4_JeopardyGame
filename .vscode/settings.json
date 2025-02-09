@@ -58,7 +58,7 @@
     "terminal.integrated.automationProfile.linux": {
         "path": "bash"
     },
-    "git.path": "C:\\Program Files\\Git\\cmd\\git.exe",
+    "git.path": "C:\\Windows\\System32\\wsl.exe -d NixOS -e '/run/current-system/sw/bin/git'",
     "git.autofetch": true,
     "git.confirmSync": false,
     "editor.tabCompletion": "on",
@@ -74,5 +74,27 @@
     "cursor.chat.smoothStreaming": true,
     "cursor.terminal.usePreviewBox": true,
     "files.autoSave": "afterDelay",
-    "powershell.promptToUpdatePowerShell": false
+    "powershell.promptToUpdatePowerShell": false,
+    "git.enableCommitSigning": false,
+    "git.useEditorAsCommitInput": true,
+    "git.allowNoVerifyCommit": false,
+    "git.branchProtection": ["main", "master"],
+    "git.followTagsWhenSync": true,
+    "git.pruneOnFetch": true,
+    "git.enableSmartCommit": true,
+    "git.postCommitCommand": "sync",
+    "git.ignoreWindowsGit27Warning": true,
+    "git.useSymlinks": true,
+    "git.detectSubmodules": false,
+    "git.enabled": true,
+    "git.useIntegratedAskPass": false,
+    "git.terminalAuthentication": true,
+    "git.terminalGitEditor": true,
+    "git.openRepositoryInParentFolders": "always",
+    "git.autoRepositoryDetection": true,
+    "git.showActionButton": {
+        "commit": true,
+        "publish": true,
+        "sync": true
+    }
 }
