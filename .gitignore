@@ -92,7 +92,7 @@ Debug/
 Release/
 
 # IDE specific files
-.vscode/
+!.vscode/
 .vs/
 *.sdf
 *.opensdf

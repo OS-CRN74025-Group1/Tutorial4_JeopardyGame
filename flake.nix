@@ -123,6 +123,77 @@
             # Reset git hooks path
             git config --unset-all core.hooksPath || true
             
+            # Ensure .git/hooks directory exists
+            mkdir -p .git/hooks
+            
+            # Remove any existing hooks first
+            rm -f .git/hooks/pre-commit
+            rm -f .git/hooks/pre-push
+            rm -f .git/hooks/pre-merge-commit
+            rm -f .git/hooks/prepare-commit-msg
+            
+            # Get absolute paths for Nix environment
+            NIX_PROFILE="/etc/profiles/per-user/$USER"
+            PRE_COMMIT_BIN=$(which pre-commit)
+            
+            # Create hook files with proper Nix environment sourcing
+            cat > .git/hooks/pre-commit << EOF
+#!/usr/bin/env bash
+export PATH="$NIX_PROFILE/bin:$PATH"
+export NIX_PROFILES="$NIX_PROFILE"
+if [ -f "$PRE_COMMIT_BIN" ]; then
+    exec "$PRE_COMMIT_BIN" run --hook-stage pre-commit
+else
+    echo "Warning: pre-commit not found in PATH"
+    exit 1
+fi
+EOF
+
+            cat > .git/hooks/pre-push << EOF
+#!/usr/bin/env bash
+export PATH="$NIX_PROFILE/bin:$PATH"
+export NIX_PROFILES="$NIX_PROFILE"
+if [ -f "$PRE_COMMIT_BIN" ]; then
+    exec "$PRE_COMMIT_BIN" run --hook-stage pre-push
+else
+    echo "Warning: pre-commit not found in PATH"
+    exit 1
+fi
+EOF
+
+            cat > .git/hooks/pre-merge-commit << EOF
+#!/usr/bin/env bash
+export PATH="$NIX_PROFILE/bin:$PATH"
+export NIX_PROFILES="$NIX_PROFILE"
+if [ -f "$PRE_COMMIT_BIN" ]; then
+    exec "$PRE_COMMIT_BIN" run --hook-stage pre-merge-commit
+else
+    echo "Warning: pre-commit not found in PATH"
+    exit 1
+fi
+EOF
+
+            cat > .git/hooks/prepare-commit-msg << EOF
+#!/usr/bin/env bash
+export PATH="$NIX_PROFILE/bin:$PATH"
+export NIX_PROFILES="$NIX_PROFILE"
+if [ -f "$PRE_COMMIT_BIN" ]; then
+    exec "$PRE_COMMIT_BIN" run --hook-stage prepare-commit-msg -- "$@"
+else
+    echo "Warning: pre-commit not found in PATH"
+    exit 1
+fi
+EOF
+
+            # Make hooks executable
+            chmod +x .git/hooks/*
+            
+            # Configure Git to use local hooks
+            git config core.hooksPath .git/hooks
+            
+            # Install pre-commit hooks
+            pre-commit install --install-hooks --overwrite
+            
             # Force LF line endings and convert existing files
             git config --local core.autocrlf false
             git config --local core.eol lf
@@ -159,11 +230,6 @@
             echo "📚 Documentation:"
             echo "  man 3 <function>        - View C function documentation"
             echo ""
-
-            # Ensure pre-commit hooks are properly installed
-            if [ ! -f .git/hooks/pre-commit ]; then
-              pre-commit install --install-hooks
-            fi
           '';
         };
       }
