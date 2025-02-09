@@ -1,0 +1,35 @@
+repos:
+- repo: local
+  hooks:
+    - id: nixpkgs-fmt
+      name: nixpkgs-fmt
+      entry: nixpkgs-fmt
+      language: system
+      files: \.nix$
+      pass_filenames: true
+      
+    - id: clang-format
+      name: clang-format
+      entry: clang-format -i
+      language: system
+      files: \.(c|h)$
+      pass_filenames: true
+      additional_dependencies: [clang-tools]
+      
+    - id: trailing-whitespace
+      name: trailing-whitespace
+      entry: trailing-whitespace-fixer
+      language: system
+      types: [text]
+      
+    - id: end-of-file-fixer
+      name: end-of-file-fixer
+      entry: end-of-file-fixer
+      language: system
+      types: [text]
+      
+    - id: check-merge-conflict
+      name: check-merge-conflict
+      entry: check-merge-conflict
+      language: system
+      types: [text] 

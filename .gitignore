@@ -110,3 +110,6 @@ Release/
 
 # Generated files
 *.generated.*
+
+# Pre-commit hook cache
+.pre-commit-cache/
