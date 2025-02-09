@@ -56,29 +56,26 @@
         pre-commit-check = pre-commit-hooks.lib.${system}.run {
           src = ./.;
           hooks = {
-            nixpkgs-fmt.enable = true;
+            nixpkgs-fmt = {
+              enable = true;
+            };
             clang-format = {
               enable = true;
-              name = "clang-format";
-              entry = "${pkgs.clang-tools}/bin/clang-format";
-              types = ["c"];
+              types = ["c" "header"];
             };
             trailing-whitespace = {
               enable = true;
-              name = "trailing-whitespace";
-              entry = "${pkgs.python3}/bin/python -c 'import sys; sys.stdout.write(\"\".join(l.rstrip()+\"\\n\" for l in sys.stdin))'";
+              entry = "trailing-whitespace-fixer";
               types = ["text"];
             };
             end-of-file-fixer = {
               enable = true;
-              name = "end-of-file-fixer";
-              entry = "${pkgs.python3}/bin/python -c 'import sys; content = sys.stdin.read(); sys.stdout.write(content.rstrip()+\"\\n\")'";
+              entry = "end-of-file-fixer";
               types = ["text"];
             };
             check-merge-conflict = {
               enable = true;
-              name = "check-merge-conflict";
-              entry = "${pkgs.python3}/bin/python -c 'import sys; sys.exit(any(l.startswith((\"<<<<<<<\", \">>>>>>>\")) for l in sys.stdin))'";
+              entry = "check-merge-conflict";
               types = ["text"];
             };
           };
@@ -120,9 +117,12 @@
             man
             man-pages
             man-pages-posix
-          ];
+          ] ++ (with self.checks.${system}.pre-commit-check; enabledPackages);
 
-          shellHook = checks.pre-commit-check.shellHook + ''
+          shellHook = self.checks.${system}.pre-commit-check.shellHook + ''
+            # Reset git hooks path
+            git config --unset-all core.hooksPath || true
+            
             # Force LF line endings and convert existing files
             git config --local core.autocrlf false
             git config --local core.eol lf
