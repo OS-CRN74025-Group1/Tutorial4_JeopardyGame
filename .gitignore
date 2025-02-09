@@ -113,3 +113,4 @@ Release/
 
 # Pre-commit hook cache
 .pre-commit-cache/
+.pre-commit-config.yaml
