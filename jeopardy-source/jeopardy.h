@@ -8,6 +8,8 @@
 #ifndef JEOPARDY_H_
 #define JEOPARDY_H_
 
+#include "players.h"
+
 #define MAX_LEN 256
 
 // Processes the answer from the user containing what is or who is and tokenizes
