@@ -7,6 +7,14 @@ pkgs.mkShell {
     gnumake
     gdb
     valgrind
+
+    # Formatters and linters
+    nixpkgs-fmt
+    clang-tools
+    pre-commit
+    statix
+    deadnix
+    nodePackages.prettier
   ];
 
   shellHook = ''
