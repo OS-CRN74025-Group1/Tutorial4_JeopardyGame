@@ -1,18 +1,34 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -std=c99 -I.
-DEPS = jeopardy.h questions.h players.h
-OBJ = jeopardy.o questions.o players.o
-EXEC = jeopardy
+CFLAGS = -Wall -Wextra -std=c99
+SRCDIR = jeopardy-source
+OBJDIR = $(SRCDIR)/obj
+BINDIR = $(SRCDIR)/bin
 
-.PHONY: all clean
+# Include path for header files
+INCLUDES = -I$(SRCDIR)
 
-%.o: %.c $(DEPS)
-	$(CC) $(CFLAGS) -c -o $@ $<
+# Source files
+SOURCES = $(wildcard $(SRCDIR)/*.c)
+HEADERS = $(wildcard $(SRCDIR)/*.h)
+OBJECTS = $(SOURCES:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
 
-all: $(EXEC)
+# Main executable
+EXEC = $(BINDIR)/jeopardy
 
-$(EXEC): $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) -o $@
+.PHONY: all clean directories
+
+all: directories $(EXEC)
+
+directories:
+	@mkdir -p $(OBJDIR)
+	@mkdir -p $(BINDIR)
+
+$(EXEC): $(OBJECTS)
+	$(CC) $(CFLAGS) $(INCLUDES) $^ -o $@
+
+$(OBJDIR)/%.o: $(SRCDIR)/%.c $(HEADERS)
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 clean:
-	rm -f $(OBJ) $(EXEC) *~
+	rm -rf $(OBJDIR) $(BINDIR)
+	rm -f *~

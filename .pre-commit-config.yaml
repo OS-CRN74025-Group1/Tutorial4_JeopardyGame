@@ -5,11 +5,17 @@ repos:
       name: clang-format
       entry: /nix/store/745n1b0lg2hvnz4arv87vs0pbnikj5hd-clang-tools-17.0.6/bin/clang-format -i
       language: system
-      files: \.(c|h)$
+      files: jeopardy-source/.*\.(c|h)$
       types: [file]
     - id: nixpkgs-fmt
       name: nixpkgs-fmt
       entry: /nix/store/p6cv609dk1p3cl5c47q6gv5adsiimf1n-nixpkgs-fmt-1.3.0/bin/nixpkgs-fmt
       language: system
       files: \.nix$
+      types: [file]
+    - id: prettier
+      name: prettier
+      entry: prettier --write
+      language: system
+      files: \.(md|yaml|json)$
       types: [file]

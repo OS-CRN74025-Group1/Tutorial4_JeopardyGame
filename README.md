@@ -5,6 +5,7 @@
 A C-based implementation of the Jeopardy game for Operating Systems course.
 
 To set up the development environment for the Tutorial4_JeopardyGame project, you have two options using Nix:
+
 1. Using `nix develop` (recommended, uses flakes)
 2. Using `nix-shell` (legacy approach)
 
@@ -63,33 +64,57 @@ nix --version
 This is the modern approach using Nix flakes. It provides a more reproducible environment and better dependency management.
 
 1. Enable flakes in your Nix configuration:
-   ```bash
-   # Add this to ~/.config/nix/nix.conf or /etc/nix/nix.conf
-   experimental-features = nix-command flakes
-   ```
+
+    ```bash
+    # Add this to ~/.config/nix/nix.conf or /etc/nix/nix.conf
+    experimental-features = nix-command flakes
+    ```
 
 2. Enter the development environment:
-   ```bash
-   # For temporary quick development session, use:
-   export NIX_CONFIG="experimental-features = nix-command flakes" && nix develop
-   ```
+    ```bash
+    # For temporary quick development session, use:
+    export NIX_CONFIG="experimental-features = nix-command flakes" && nix develop
+    ```
 
 This will provide you with:
-- Build tools: gcc, make, gdb, valgrind
-- Formatters and linters: clang-tools, alejandra, statix, deadnix, prettier
-- Testing tools: cppcheck, gcovr, cmocka
-- Pre-configured git hooks for code formatting
+
+-   Build tools: gcc, make, gdb, valgrind
+-   Formatters and linters: clang-tools, alejandra, statix, deadnix, prettier
+-   Testing tools: cppcheck, gcovr, cmocka
+-   Pre-configured git hooks for code formatting
 
 #### Option 2: Using `nix-shell`
 
 This is the legacy approach that uses the traditional Nix package management.
 
 Enter the development environment by running:
+
 ```bash
 nix-shell
 ```
 
 This provides the same tools as `nix develop` but uses the older Nix infrastructure.
+
+### Project Structure
+
+The project is organized as follows:
+
+```
+.
+├── jeopardy-source/     # Main source directory
+│   ├── bin/            # Compiled binaries
+│   ├── obj/            # Object files
+│   ├── jeopardy.c      # Main game logic
+│   ├── jeopardy.h      # Main header file
+│   ├── players.c       # Player management
+│   ├── players.h       # Player header file
+│   ├── questions.c     # Question management
+│   └── questions.h     # Question header file
+├── Makefile            # Build configuration
+├── flake.nix           # Nix flake configuration
+├── shell.nix           # Legacy Nix shell configuration
+└── README.md           # This file
+```
 
 ### Building the Project
 
@@ -99,28 +124,42 @@ Once you're in either development environment, you can build the project using:
 make
 ```
 
+The compiled binary will be available at `jeopardy-source/bin/jeopardy`.
+
 ### Development Tools Available
 
 Both environments provide the following tools:
 
 🛠️ **Build Tools**:
-  - `make` - Build the project
-  - `gcc` - C compiler
-  - `gdb` - Debugger
-  - `valgrind` - Memory checker
+
+-   `make` - Build the project
+-   `gcc` - C compiler
+-   `gdb` - Debugger
+-   `valgrind` - Memory checker
 
 🔍 **Testing Tools**:
-  - `cppcheck` - Static analysis
-  - `gcovr` - Code coverage
-  - `cmocka` - Unit testing
+
+-   `cppcheck` - Static analysis
+-   `gcovr` - Code coverage
+-   `cmocka` - Unit testing
 
 ✨ **Formatters and Linters**:
-  - `clang-format` - C code formatter
-  - `alejandra` - Nix formatter (flakes only)
-  - `statix` - Nix linter
-  - `deadnix` - Find dead Nix code
-  - `prettier` - Format markdown/yaml/json
+
+-   `clang-format` - C code formatter
+-   `alejandra` - Nix formatter (flakes only)
+-   `statix` - Nix linter
+-   `deadnix` - Find dead Nix code
+-   `prettier` - Format markdown/yaml/json
 
 🔄 **Git Hooks**:
-  - `pre-commit run` - Run hooks on staged files
-  - `pre-commit run -a` - Run hooks on all files
+
+-   `pre-commit run` - Run hooks on staged files
+-   `pre-commit run -a` - Run hooks on all files
+
+### Running the Game
+
+After building, you can run the game using:
+
+```bash
+./jeopardy-source/bin/jeopardy
+```

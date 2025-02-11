@@ -9,13 +9,31 @@ let
           name: clang-format
           entry: ${pkgs.clang-tools}/bin/clang-format -i
           language: system
-          files: \.(c|h)$
+          files: jeopardy-source/.*\.(c|h)$
           types: [file]
-        - id: nixpkgs-fmt
-          name: nixpkgs-fmt
-          entry: ${pkgs.nixpkgs-fmt}/bin/nixpkgs-fmt
+        - id: alejandra
+          name: alejandra
+          entry: ${pkgs.alejandra}/bin/alejandra
           language: system
           files: \.nix$
+          types: [file]
+        - id: statix
+          name: statix
+          entry: ${pkgs.statix}/bin/statix fix
+          language: system
+          files: \.nix$
+          types: [file]
+        - id: deadnix
+          name: deadnix
+          entry: ${pkgs.deadnix}/bin/deadnix -e
+          language: system
+          files: \.nix$
+          types: [file]
+        - id: prettier
+          name: prettier
+          entry: ${pkgs.nodePackages.prettier}/bin/prettier --write
+          language: system
+          files: \.(md|yaml|json)$
           types: [file]
   '';
 in
@@ -28,21 +46,46 @@ pkgs.mkShell {
     valgrind
 
     # Formatters and linters
-    nixpkgs-fmt
     clang-tools
-    pre-commit
+    alejandra
     statix
     deadnix
     nodePackages.prettier
+    pre-commit
 
     # Testing tools
-    cppcheck # Static analysis for C
-    gcovr # Code coverage
-    cmocka # Unit testing framework
+    cppcheck
+    gcovr
+    cmocka
   ];
 
   shellHook = ''
-    echo "Entering development shell..."
+    echo "🎮 Welcome to Jeopardy Game Development Environment"
+    echo ""
+    echo "🛠️  Available development tools:"
+    echo ""
+    echo "  🔨 Build tools:"
+    echo "    make          - Build the project"
+    echo "    gcc          - C compiler"
+    echo "    gdb          - Debugger"
+    echo "    valgrind     - Memory checker"
+    echo ""
+    echo "  🔍 Testing tools:"
+    echo "    cppcheck     - Static analysis"
+    echo "    gcovr        - Code coverage"
+    echo "    cmocka       - Unit testing"
+    echo ""
+    echo "  ✨ Formatters and linters:"
+    echo "    clang-format - C code formatter"
+    echo "    alejandra    - Nix formatter"
+    echo "    statix       - Nix linter"
+    echo "    deadnix      - Find dead Nix code"
+    echo "    prettier     - Format markdown/yaml/json"
+    echo ""
+    echo "  🔄 Git hooks:"
+    echo "    pre-commit run     - Run hooks on staged files"
+    echo "    pre-commit run -a  - Run hooks on all files"
+    echo ""
 
     if [ -d .git ]; then
       echo "Setting up pre-commit hooks..."
