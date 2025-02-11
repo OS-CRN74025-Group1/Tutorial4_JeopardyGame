@@ -15,9 +15,18 @@ pkgs.mkShell {
     statix
     deadnix
     nodePackages.prettier
+
+    # Testing tools
+    cppcheck # Static analysis for C
+    gcovr # Code coverage
+    cmocka # Unit testing framework
   ];
 
   shellHook = ''
     echo "Entering development shell..."
   '';
+
+  # Environment variables for development
+  CFLAGS = "-Wall -Wextra -g -O2";
+  LDFLAGS = "-lcmocka";
 }
