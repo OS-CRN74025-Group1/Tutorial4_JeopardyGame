@@ -21,26 +21,29 @@ extern const char categories[NUM_CATEGORIES][MAX_LEN];
 
 // Questions struct for each question
 typedef struct {
-    char category[MAX_LEN];
-    char question[MAX_LEN];
-    char answer[MAX_LEN];
-    int value;
-    bool answered;
+  char category[MAX_LEN];
+  char question[MAX_LEN];
+  char answer[MAX_LEN];
+  int value;
+  bool answered;
 } question;
 
-// An array of 12 questions (4 for each category), initialized in initialize_game
+// An array of 12 questions (4 for each category), initialized in
+// initialize_game
 extern question questions[NUM_QUESTIONS];
 
 // Initializes the array of questions for the game
 extern void initialize_game(void);
 
-// Displays each of the remaining categories and question dollar values that have not been answered
+// Displays each of the remaining categories and question dollar values that
+// have not been answered
 extern void display_categories(void);
 
 // Displays the question for the category and dollar value
 extern void display_question(char *category, int value);
 
-// Returns true if the answer is correct for the question for that category and dollar value
+// Returns true if the answer is correct for the question for that category and
+// dollar value
 extern bool valid_answer(char *category, int value, char *answer);
 
 // Returns true if the question has already been answered

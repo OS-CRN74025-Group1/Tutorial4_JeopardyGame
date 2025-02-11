@@ -45,7 +45,7 @@
         },
         "Git Bash": {
             "source": "Git Bash"
-        },        
+        },
         "NixOS (WSL)": {
             "path": "C:\\Windows\\System32\\wsl.exe",
             "args": ["-d", "NixOS"],
@@ -205,5 +205,5 @@
         "commit": true,
         "publish": true,
         "sync": true
-    },
+    }
 }

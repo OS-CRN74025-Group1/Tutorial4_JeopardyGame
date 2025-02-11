@@ -1,123 +1,131 @@
 name: Nix Build & Test
 
 on:
-  push:
-    branches: [ 'users/VS-*/**', main ]
-  pull_request:
-    branches: [ 'users/VS-*/**', main ]
+    push:
+        branches: ["users/VS-*/**", main]
+    pull_request:
+        branches: ["users/VS-*/**", main]
 
 permissions:
-  contents: read
-  packages: read
+    contents: read
+    packages: read
 
 jobs:
-  nix-build:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: read
-      actions: read
-    steps:
-      - uses: actions/checkout@v4.2.2
-        with:
-          token: ${{ secrets.GIT_TOKEN }}
-          end-of-line: lf
-      
-      - name: Install Nix
-        uses: cachix/install-nix-action@v25
-        with:
-          extra_nix_config: |
-            experimental-features = nix-command flakes
-            access-tokens = github.com=${{ secrets.GIT_TOKEN }}
-      
-      - name: Setup Cachix
-        uses: cachix/cachix-action@v14
-        with:
-          name: os-crn74025-group1
-          authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
-          skipPush: false
-      
-      - name: Test Nix Shell
-        run: |
-          # Verify nix develop loads correctly
-          nix develop --command echo 'Nix develop loads successfully'
-          
-          # Test if required tools are available
-          nix develop --command gcc --version
-          nix develop --command make --version
-          nix develop --command git --version
+    nix-build:
+        runs-on: ubuntu-latest
+        permissions:
+            contents: read
+            packages: read
+            actions: read
+        steps:
+            - uses: actions/checkout@v4.2.2
+              with:
+                  token: ${{ secrets.GIT_TOKEN }}
 
-  build-test:
-    needs: nix-build
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: read
-      actions: read
-    steps:
-      - uses: actions/checkout@v4.2.2
-        with:
-          token: ${{ secrets.GIT_TOKEN }}
-          end-of-line: lf
-      
-      - name: Install Nix
-        uses: cachix/install-nix-action@v25
-        with:
-          extra_nix_config: |
-            experimental-features = nix-command flakes
-            access-tokens = github.com=${{ secrets.GIT_TOKEN }}
-      
-      - name: Build Project
-        run: |
-          # Ensure we're using LF line endings
-          git config --global core.autocrlf false
-          git config --global core.eol lf
-          
-          # Normalize line endings
-          git add --renormalize .
-          git reset --hard
-          
-          nix develop --command make all
-          
-      - name: Verify Build Artifacts
-        run: |
-          nix develop --command test -f jeopardy
-          
-      - name: Test Clean Target
-        run: |
-          nix develop --command make clean
-          nix develop --command test ! -f jeopardy
-          
-      - name: Upload Build Artifacts
-        if: success()
-        uses: actions/upload-artifact@v4.6.0
-        with:
-          name: jeopardy-game
-          path: |
-            jeopardy
-            *.o
-          retention-days: 7
+            - name: Configure Git
+              run: |
+                  git config --global core.autocrlf false
+                  git config --global core.eol lf
+                  git add --renormalize .
 
-  code-analysis:
-    needs: nix-build
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: read
-      actions: read
-    steps:
-      - uses: actions/checkout@v4.2.2
-        with:
-          token: ${{ secrets.GIT_TOKEN }}
-          end-of-line: lf
-      
-      - name: Install Nix
-        uses: cachix/install-nix-action@v25
-        with:
-          extra_nix_config: |
-            experimental-features = nix-command flakes
-            access-tokens = github.com=${{ secrets.GIT_TOKEN }}
-        
-      - name: Static Analysis
-        run: |
-          nix develop --command gcc -fanalyzer -Wall -Wextra -std=c99 -c *.c 
+            - name: Install Nix
+              uses: cachix/install-nix-action@v25
+              with:
+                  extra_nix_config: |
+                      experimental-features = nix-command flakes
+                      access-tokens = github.com=${{ secrets.GIT_TOKEN }}
+
+            - name: Setup Cachix
+              uses: cachix/cachix-action@v14
+              with:
+                  name: os-crn74025-group1
+                  authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
+                  skipPush: false
+
+            - name: Test Nix Shell
+              run: |
+                  # Verify nix develop loads correctly
+                  nix develop --command echo 'Nix develop loads successfully'
+
+                  # Test if required tools are available
+                  nix develop --command gcc --version
+                  nix develop --command make --version
+                  nix develop --command git --version
+
+    build-test:
+        needs: nix-build
+        runs-on: ubuntu-latest
+        permissions:
+            contents: read
+            packages: read
+            actions: read
+        steps:
+            - uses: actions/checkout@v4.2.2
+              with:
+                  token: ${{ secrets.GIT_TOKEN }}
+
+            - name: Configure Git
+              run: |
+                  git config --global core.autocrlf false
+                  git config --global core.eol lf
+                  git add --renormalize .
+
+            - name: Install Nix
+              uses: cachix/install-nix-action@v25
+              with:
+                  extra_nix_config: |
+                      experimental-features = nix-command flakes
+                      access-tokens = github.com=${{ secrets.GIT_TOKEN }}
+
+            - name: Build Project
+              run: |
+                  nix develop --command make clean
+                  nix develop --command make all
+
+            - name: Verify Build Artifacts
+              run: |
+                  nix develop --command bash -c 'test -f jeopardy && echo "Binary exists"'
+
+            - name: Test Clean Target
+              run: |
+                  nix develop --command make clean
+                  nix develop --command bash -c '! test -f jeopardy && echo "Binary cleaned"'
+
+            - name: Upload Build Artifacts
+              if: success()
+              uses: actions/upload-artifact@v4.6.0
+              with:
+                  name: jeopardy-game
+                  path: |
+                      ./jeopardy
+                      ./*.o
+                  retention-days: 7
+
+    code-analysis:
+        needs: nix-build
+        runs-on: ubuntu-latest
+        permissions:
+            contents: read
+            packages: read
+            actions: read
+        steps:
+            - uses: actions/checkout@v4.2.2
+              with:
+                  token: ${{ secrets.GIT_TOKEN }}
+
+            - name: Configure Git
+              run: |
+                  git config --global core.autocrlf false
+                  git config --global core.eol lf
+                  git add --renormalize .
+
+            - name: Install Nix
+              uses: cachix/install-nix-action@v25
+              with:
+                  extra_nix_config: |
+                      experimental-features = nix-command flakes
+                      access-tokens = github.com=${{ secrets.GIT_TOKEN }}
+
+            - name: Static Analysis
+              run: |
+                  nix develop --command gcc -fanalyzer -Wall -Wextra -std=c99 -c *.c
