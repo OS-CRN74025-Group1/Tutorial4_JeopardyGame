@@ -2,9 +2,11 @@
 
 pkgs.mkShell {
   buildInputs = with pkgs; [
-    # Build tools only
+    # Build tools
     gcc
     gnumake
+    gdb
+    valgrind
   ];
 
   shellHook = ''
