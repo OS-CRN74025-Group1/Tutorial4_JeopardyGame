@@ -4,6 +4,8 @@
  * Copyright (C) 2015, <GROUP MEMBERS>
  * All rights reserved.
  *
+ * This header file contains the definitions and function prototypes for the
+ * core game logic of the Jeopardy game.
  */
 #ifndef JEOPARDY_H_
 #define JEOPARDY_H_

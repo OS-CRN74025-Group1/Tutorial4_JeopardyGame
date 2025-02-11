@@ -84,12 +84,12 @@ jobs:
 
             - name: Verify Build Artifacts
               run: |
-                  nix develop --command bash -c 'test -f jeopardy && echo "Binary exists"'
+                  nix develop --command bash -c 'test -f jeopardy-source/bin/jeopardy && echo "Binary exists"'
 
             - name: Test Clean Target
               run: |
                   nix develop --command make clean
-                  nix develop --command bash -c '! test -f jeopardy && echo "Binary cleaned"'
+                  nix develop --command bash -c '! test -f jeopardy-source/bin/jeopardy && echo "Binary cleaned"'
 
             - name: Upload Build Artifacts
               if: success()
@@ -97,8 +97,8 @@ jobs:
               with:
                   name: jeopardy-game
                   path: |
-                      ./jeopardy
-                      ./*.o
+                      ./jeopardy-source/bin/jeopardy
+                      ./jeopardy-source/obj/*.o
                   retention-days: 7
 
     code-analysis:
@@ -128,4 +128,4 @@ jobs:
 
             - name: Static Analysis
               run: |
-                  nix develop --command gcc -fanalyzer -Wall -Wextra -std=c99 -c *.c
+                  nix develop --command bash -c 'cd jeopardy-source && gcc -fanalyzer -Wall -Wextra -std=c99 -c *.c'
